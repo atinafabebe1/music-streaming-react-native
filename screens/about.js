@@ -1,31 +1,36 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import ContainerStyle from '../styles/container';
 import TextStyle from '../styles/text';
 
 const AboutScreen = () => {
   return (
-    <View style={ContainerStyle.container}>
-      <Image source={require('../assets/musicify.png')} style={styles.logo} />
-      <Text style={TextStyle.title}>Music Streaming App</Text>
-      <Text style={TextStyle.description}>
-        Welcome to our music streaming app. We provide a wide range of music genres and a seamless listening experience. Explore our vast collection
-        of songs, create playlists, and enjoy your favorite music anytime, anywhere.
-      </Text>
-      <Text style={TextStyle.sectionTitle}>Features:</Text>
-      <View style={styles.featureContainer}>
-        <Text style={styles.feature}>- Explore and discover music from various genres, artists, and albums</Text>
-        <Text style={styles.feature}>- Create and manage your personalized playlists</Text>
-        <Text style={styles.feature}>- Enjoy high-quality audio streaming</Text>
-        <Text style={styles.feature}>- Follow your favorite artists and stay updated with their latest releases</Text>
-        <Text style={styles.feature}>- Share your favorite songs and playlists with friends</Text>
+    <ScrollView contentContainerStyle={styles.scrollViewContent}>
+      <View style={ContainerStyle.container}>
+        <Image source={require('../assets/musicify.png')} style={styles.logo} />
+        <Text style={TextStyle.title}>Music Streaming App</Text>
+        <Text style={TextStyle.description}>
+          Welcome to our music streaming app. We provide a wide range of music genres and a seamless listening experience. Explore our vast collection
+          of songs, create playlists, and enjoy your favorite music anytime, anywhere.
+        </Text>
+        <Text style={TextStyle.sectionTitle}>Features:</Text>
+        <View style={styles.featureContainer}>
+          <Text style={styles.feature}>- Explore and discover music from various genres, artists, and albums</Text>
+          <Text style={styles.feature}>- Create and manage your personalized playlists</Text>
+          <Text style={styles.feature}>- Enjoy high-quality audio streaming</Text>
+          <Text style={styles.feature}>- Follow your favorite artists and stay updated with their latest releases</Text>
+          <Text style={styles.feature}>- Share your favorite songs and playlists with friends</Text>
+        </View>
+        <Text style={styles.version}>Version 1.0.0</Text>
       </View>
-      <Text style={styles.version}>Version 1.0.0</Text>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollViewContent: {
+    flexGrow: 1
+  },
   logo: {
     width: 200,
     height: 200,

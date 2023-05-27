@@ -16,7 +16,7 @@ const AlbumScreen = ({ navigation }) => {
   };
 
   const handleSongPress = (song) => {
-    navigation.replace('Player', { song });
+    navigation.navigate('Player', { song });
   };
 
   return (

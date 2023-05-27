@@ -50,7 +50,7 @@ const HomeScreen = ({ navigation }) => {
     setFilteredAlbums(filteredAlbums);
   };
   const handleAlbumPress = (album) => {
-    navigation.replace('Album', { album });
+    navigation.navigate('Album', { album });
   };
 
   const renderAlbum = ({ item }) => <AlbumItem album={item} handleAlbumPress={handleAlbumPress} />;
@@ -92,7 +92,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 10,
     fontSize: 16,
-    color: '#333'
+    color: '#333',
+    marginTop: 2
   },
   heading: {
     fontSize: 24,
