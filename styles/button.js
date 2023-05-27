@@ -1,0 +1,19 @@
+import { StyleSheet } from 'react-native';
+
+const ButtonStyle = StyleSheet.create({
+  button: {
+    backgroundColor: '#f4511e',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold'
+  }
+});
+
+export default ButtonStyle;
