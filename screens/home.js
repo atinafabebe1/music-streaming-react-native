@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, FlatList, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TextInput, FlatList, Dimensions, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import AlbumItem from '../components/albumItem';
 
 const HomeScreen = ({ navigation }) => {
@@ -49,6 +50,7 @@ const HomeScreen = ({ navigation }) => {
 
     setFilteredAlbums(filteredAlbums);
   };
+
   const handleAlbumPress = (album) => {
     navigation.navigate('Album', { album });
   };
@@ -59,6 +61,9 @@ const HomeScreen = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.searchContainer}>
         <TextInput style={styles.searchInput} placeholder="Search" value={searchQuery} onChangeText={handleSearch} placeholderTextColor="#999" />
+        <TouchableOpacity>
+          <Ionicons name="notifications" size={30} color="#333" style={styles.notificationIcon} />
+        </TouchableOpacity>
       </View>
       <Text style={styles.heading}>New Releases</Text>
       <FlatList
@@ -83,9 +88,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16
   },
   searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 16
   },
   searchInput: {
+    flex: 1,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 8,
@@ -93,7 +101,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     fontSize: 16,
     color: '#333',
-    marginTop: 2
+    marginRight: 8
+  },
+  notificationIcon: {
+    marginRight: 8
   },
   heading: {
     fontSize: 24,

@@ -42,8 +42,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.4,
-    shadowRadius: 2,
-    elevation: 4
+    shadowRadius: 2
   },
   featureContainer: {
     width: '100%',

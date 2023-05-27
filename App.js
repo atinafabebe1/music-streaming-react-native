@@ -99,6 +99,29 @@ const AboutStack = () => (
     />
   </Stack.Navigator>
 );
+
+const AuthStack = () => (
+  <Stack.Navigator
+    screenOptions={{
+      ...TransitionPresets.SlideFromRightIOS,
+      headerStyle: {
+        backgroundColor: '#007bff'
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold'
+      }
+    }}
+  >
+    <Stack.Screen
+      name="Auth"
+      component={AuthScreen}
+      options={{
+        title: 'Authentication'
+      }}
+    />
+  </Stack.Navigator>
+);
 export default function App() {
   const [isAppReady, setAppReady] = React.useState(false);
 
@@ -125,24 +148,22 @@ export default function App() {
               let iconName;
               if (route.name === 'HomeStack') {
                 iconName = 'home';
-              } else if (route.name === 'Favorites') {
+              } else if (route.name === 'FavoritesStack') {
                 iconName = 'heart';
-              } else if (route.name === 'About') {
+              } else if (route.name === 'AboutStack') {
                 iconName = 'information-circle';
+              } else if (route.name === 'AuthStack') {
+                iconName = 'lock-closed';
               }
-
               return <Ionicons name={iconName} size={size} color={color} />;
             },
             tabBarLabel: () => null // Hides the tab bar labels
           })}
-          tabBarOptions={{
-            activeTintColor: '#007bff', // Customize active tab icon color
-            inactiveTintColor: 'gray' // Customize inactive tab icon color
-          }}
         >
           <Tab.Screen name="HomeStack" component={HomeStack} options={{ headerShown: false }} />
-          <Tab.Screen name="Favorites" component={FavoritesStack} options={{ headerShown: false }} />
-          <Tab.Screen name="About" component={AboutStack} options={{ headerShown: false }} />
+          <Tab.Screen name="FavoritesStack" component={FavoritesStack} options={{ headerShown: false }} />
+          <Tab.Screen name="AuthStack" component={AuthStack} options={{ headerShown: false }} />
+          <Tab.Screen name="AboutStack" component={AboutStack} options={{ headerShown: false }} />
         </Tab.Navigator>
       </NavigationContainer>
     </View>

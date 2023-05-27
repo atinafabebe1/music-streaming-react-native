@@ -3,13 +3,7 @@ import { View, Image, StyleSheet, Text } from 'react-native';
 import ContainerStyle from '../styles/container';
 import TextStyle from '../styles/text';
 
-const SplashScreen = ({ navigation }) => {
-  useEffect(() => {
-    setTimeout(() => {
-      navigation.replace('Home');
-    }, 3000);
-  }, [navigation]);
-
+const SplashScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.background} />
@@ -52,8 +46,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.4,
-    shadowRadius: 2,
-    elevation: 4
+    shadowRadius: 2
   },
   textContainer: {
     alignItems: 'center',

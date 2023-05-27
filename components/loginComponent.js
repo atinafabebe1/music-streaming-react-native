@@ -38,7 +38,7 @@ const LoginComponent = ({ toggleScreen }) => {
 
 const styles = StyleSheet.create({
   button: {
-    width: '100%',
+    width: '90%',
     backgroundColor: '#f4511e',
     paddingVertical: 12,
     paddingHorizontal: 24,

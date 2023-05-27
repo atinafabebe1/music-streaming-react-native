@@ -74,8 +74,7 @@ const styles = StyleSheet.create({
       height: 2
     },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3
+    shadowRadius: 4
   },
   songImage: {
     width: 60,
