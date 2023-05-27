@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const InputStyle = StyleSheet.create({
   input: {
+    width: '100%',
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 8,
