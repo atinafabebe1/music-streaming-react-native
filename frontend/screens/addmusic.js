@@ -20,9 +20,10 @@ const AddMusicScreen = () => {
   const requestPermission = async () => {
     const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
     if (status !== 'granted') {
-      Alert.alert('Permission Required', 'Please grant permission to access media library.');
+      Alert.alert('Permission Required', 'Please grant permission to access the media library.');
     }
   };
+
   const handleAddMusic = async () => {
     try {
       if (!title || !artist || !album || !duration || !genre || !songFile) {
@@ -41,14 +42,31 @@ const AddMusicScreen = () => {
         name: 'song.mp3', // You can set a custom file name here
         type: 'audio/mp3' // Adjust the MIME type according to your file type
       });
-      console.log(songFile);
 
-      // ...
+      const response = await axios.post('https://musicify-0umh.onrender.com/api/songs/songs', formData);
+      console.log(response.data);
+
+      // Reset form fields
+      setTitle('');
+      setArtist('');
+      setAlbum('');
+      setDuration('');
+      setGenre('');
+      setSongFile(null);
+
+      // Show success message
+      Alert.alert('Success', 'Music added successfully.');
     } catch (error) {
-      console.error('Failed to add music', error);
-      Alert.alert('Error', `Failed to add music. ${error}`);
+      if (error.response) {
+        console.error('Axios Error:', error.response);
+        Alert.alert('Error', `Failed to add music. ${error.message}`);
+      } else {
+        console.error('Error:', error);
+        Alert.alert('Error', 'An unexpected error occurred. Please try again later.');
+      }
     }
   };
+
   const handleChooseSongFile = async () => {
     try {
       const result = await DocumentPicker.getDocumentAsync({
@@ -68,7 +86,7 @@ const AddMusicScreen = () => {
       }
 
       console.error('Failed to choose song file', error);
-      Alert.alert('Error', 'Failed to choose song file. Please try again later.');
+      Alert.alert('Error', 'Failed to choose the song file. Please try again later.');
     }
   };
 
