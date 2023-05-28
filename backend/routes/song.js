@@ -32,7 +32,7 @@ const upload = multer({
 });
 
 // Create a new song with file upload
-router.post('/songs', upload.single('songFile'), songController.createSong);
+router.post('/songs', songController.createSong);
 
 // Get all songs
 router.get('/songs', songController.getAllSongs);
