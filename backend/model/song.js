@@ -2,34 +2,34 @@ const mongoose = require('mongoose');
 
 const songSchema = new mongoose.Schema({
   title: {
-    type: String,
-    required: true
+    type: String
+    // required: true
   },
   artist: {
-    type: String,
-    required: true
+    type: String
+    // required: true
   },
   album: {
     type: String
   },
   duration: {
-    type: Number,
-    required: true
+    type: String
+    // required: true
   },
   genre: {
     type: String
   },
   url: {
-    type: String,
-    required: true
+    type: String
+    // required: true
   },
   coverImage: {
     type: String
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+    ref: 'User'
+    // required: true
   },
   createdAt: {
     type: Date,
@@ -37,6 +37,6 @@ const songSchema = new mongoose.Schema({
   }
 });
 
-const Song = mongoose.model('Song', songSchema);
+const Song = mongoose.model('SongMusic', songSchema);
 
 module.exports = Song;

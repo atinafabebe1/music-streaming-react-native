@@ -1,26 +1,23 @@
 const Song = require('../model/song');
 
 const createSong = async (req, res) => {
-  console.log(req.body);
   try {
-    const { title, artist, album, duration, genre, url, coverImage } = req.body;
-    const { userId } = req.user; // Assuming you have user authentication in place and can access the current user's ID
+    console.log(req.body);
+    console.log(req.file);
+    const { title, artist, album, duration, genre } = req.body;
 
-    const song = new Song({
+    const song = await Song.create({
       title,
       artist,
       album,
       duration,
       genre,
-      url,
-      coverImage,
-      user: userId
+      url: req.file.path // Use the path of the uploaded file from req.file
     });
-
-    const savedSong = await song.save();
-
-    res.status(201).json(savedSong);
+    console.log(song);
+    res.status(201).json(song);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'An error occurred while creating the song' });
   }
 };
