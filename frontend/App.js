@@ -13,6 +13,7 @@ import AboutScreen from './screens/about';
 import AlbumScreen from './screens/album';
 import FavoritesScreen from './screens/favorites';
 import PlayerScreen from './screens/player';
+import AddMusicScreen from './screens/addmusic';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -69,7 +70,7 @@ const FavoritesStack = () => (
   >
     <Stack.Screen
       name="Favorites"
-      component={FavoritesScreen}
+      component={AddMusicScreen}
       options={{
         title: 'Favorites'
       }}
