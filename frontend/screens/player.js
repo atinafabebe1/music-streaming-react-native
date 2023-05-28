@@ -10,25 +10,38 @@ const PlayerScreen = ({ route }) => {
 
   const handlePlayPause = async () => {
     try {
-      if (isPlaying) {
-        await soundObject.pauseAsync();
+      if (soundObject && soundObject.isLoaded) {
+        if (isPlaying) {
+          await soundObject.pauseAsync();
+        } else {
+          await soundObject.playAsync();
+        }
+        setIsPlaying(!isPlaying);
       } else {
-        await soundObject.playAsync();
+        console.log('Sound is not loaded yet');
       }
-      setIsPlaying(!isPlaying);
     } catch (error) {
       console.log('Error occurred while playing/pausing audio:', error);
     }
   };
-
   const loadAudio = async () => {
     try {
-      const sound = new Audio.Sound();
-      await sound.loadAsync(require('../assets/music/dave1.mp3'));
-      setSoundObject(sound);
+      const response = await fetch('https://musicify-0umh.onrender.com/api/songs/songs/64739b5fb3584b2ca0e8a8b1');
+      console.log(response);
+      const soundObject = new Audio.Sound();
+
+      await soundObject.loadAsync({ uri: response.url }, { shouldPlay: false });
+
+      setSoundObject(soundObject);
       console.log('Audio loaded successfully');
     } catch (error) {
       console.log('Error occurred while loading audio:', error);
+    }
+  };
+
+  const onPlaybackStatusUpdate = (status) => {
+    if (status.isLoaded && !status.isPlaying) {
+      setIsPlaying(false);
     }
   };
 
