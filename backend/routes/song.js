@@ -18,11 +18,11 @@ const storage = multer.diskStorage({
 
 // Create a file filter function to only allow mp3 files
 const fileFilter = (req, file, cb) => {
-  // if (file.mimetype === 'audio/mpeg') {
-  cb(null, true);
-  // } else {
-  //   cb(new Error('Invalid file type. Only MP3 files are allowed.'), false);
-  // }
+  if (file.mimetype === 'audio/mpeg') {
+    cb(null, true);
+  } else {
+    cb(new Error('Invalid file type. Only MP3 files are allowed.'), false);
+  }
 };
 
 // Create an upload instance of multer with the storage and file filter options
@@ -32,7 +32,7 @@ const upload = multer({
 });
 
 // Create a new song with file upload
-router.post('/songs', songController.createSong);
+router.post('/songs', upload.single('songFile'), songController.createSong);
 
 // Get all songs
 router.get('/songs', songController.getAllSongs);
