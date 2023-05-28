@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, Alert } from 'react-native';
+import { View, TextInput, Button, Alert, ActivityIndicator, StyleSheet } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
@@ -12,6 +12,7 @@ const AddMusicScreen = () => {
   const [duration, setDuration] = useState('');
   const [genre, setGenre] = useState('');
   const [songFile, setSongFile] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     requestPermission();
@@ -31,6 +32,8 @@ const AddMusicScreen = () => {
         return;
       }
 
+      setIsLoading(true);
+
       const formData = new FormData();
       formData.append('title', title);
       formData.append('artist', artist);
@@ -39,14 +42,18 @@ const AddMusicScreen = () => {
       formData.append('genre', genre);
       formData.append('songFile', {
         uri: songFile.uri,
-        name: 'song.mp3', // You can set a custom file name here
-        type: 'audio/mp3' // Adjust the MIME type according to your file type
+        name: 'song.mp3',
+        type: 'audio/mp3'
       });
 
-      const response = await axios.post('https://musicify-0umh.onrender.com/api/songs/songs', formData);
+      const response = await axios.post('https://musicify-0umh.onrender.com/api/songs/songs', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
       console.log(response.data);
 
-      // Reset form fields
       setTitle('');
       setArtist('');
       setAlbum('');
@@ -54,9 +61,12 @@ const AddMusicScreen = () => {
       setGenre('');
       setSongFile(null);
 
-      // Show success message
+      setIsLoading(false);
+
       Alert.alert('Success', 'Music added successfully.');
     } catch (error) {
+      setIsLoading(false);
+
       if (error.response) {
         console.error('Axios Error:', error.response);
         Alert.alert('Error', `Failed to add music. ${error.message}`);
@@ -70,7 +80,7 @@ const AddMusicScreen = () => {
   const handleChooseSongFile = async () => {
     try {
       const result = await DocumentPicker.getDocumentAsync({
-        type: 'audio/mpeg', // Adjust the MIME type to match the audio file types you want to select
+        type: 'audio/mpeg',
         copyToCacheDirectory: false
       });
 
@@ -81,7 +91,6 @@ const AddMusicScreen = () => {
       }
     } catch (error) {
       if (error.code === 'cancelled') {
-        // User canceled the file selection
         return;
       }
 
@@ -91,16 +100,34 @@ const AddMusicScreen = () => {
   };
 
   return (
-    <View>
-      <TextInput placeholder="Title" value={title} onChangeText={setTitle} />
-      <TextInput placeholder="Artist" value={artist} onChangeText={setArtist} />
-      <TextInput placeholder="Album" value={album} onChangeText={setAlbum} />
-      <TextInput placeholder="Duration" value={duration} onChangeText={setDuration} />
-      <TextInput placeholder="Genre" value={genre} onChangeText={setGenre} />
-      <Button title="Choose Song File" onPress={handleChooseSongFile} />
-      <Button title="Add Music" onPress={handleAddMusic} />
+    <View style={styles.container}>
+      <TextInput style={styles.input} placeholder="Title" value={title} onChangeText={setTitle} />
+      <TextInput style={styles.input} placeholder="Artist" value={artist} onChangeText={setArtist} />
+      <TextInput style={styles.input} placeholder="Album" value={album} onChangeText={setAlbum} />
+      <TextInput style={styles.input} placeholder="Duration" value={duration} onChangeText={setDuration} />
+      <TextInput style={styles.input} placeholder="Genre" value={genre} onChangeText={setGenre} />
+      <Button title="Choose Song File" onPress={handleChooseSongFile} disabled={isLoading} />
+      <Button title="Add Music" onPress={handleAddMusic} disabled={isLoading} />
+      {isLoading && <ActivityIndicator size="large" color="#0000ff" style={styles.loadingIndicator} />}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16
+  },
+  input: {
+    marginBottom: 12,
+    padding: 8,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 4
+  },
+  loadingIndicator: {
+    marginTop: 16
+  }
+});
 
 export default AddMusicScreen;
