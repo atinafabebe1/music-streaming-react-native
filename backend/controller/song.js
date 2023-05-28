@@ -26,7 +26,6 @@ const createSong = async (req, res) => {
 
 // Get all songs
 const getAllSongs = async (req, res) => {
-  console.log(req);
   try {
     const songs = await Song.find();
 
