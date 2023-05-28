@@ -39,6 +39,7 @@ router.get('/songs', songController.getAllSongs);
 
 // Get a single song by ID
 router.get('/songs/:id', songController.getSongById);
+router.get('/songs/:id/audio', songController.getSongAudioById);
 
 // Update a song by ID
 router.put('/songs/:id', songController.updateSongById);

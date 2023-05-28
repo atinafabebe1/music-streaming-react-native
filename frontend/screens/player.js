@@ -30,7 +30,7 @@ const PlayerScreen = ({ route }) => {
       console.log(response);
       const soundObject = new Audio.Sound();
 
-      await soundObject.loadAsync({ uri: response.url }, { shouldPlay: false });
+      await soundObject.loadAsync({ uri: `${response.url}/audio` }, { shouldPlay: false });
 
       setSoundObject(soundObject);
       console.log('Audio loaded successfully');
