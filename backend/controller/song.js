@@ -79,21 +79,30 @@ const getSongAudioById = async (req, res) => {
       return res.status(404).json({ message: 'Song not found' });
     }
 
-    const songFilePath = path.join(__dirname, '../uploads', song.path.replace(/\\/g, '/'));
+    const songFilePath = path.join(__dirname, '..', song.url.replace(/\\/g, '/'));
 
     // Set the appropriate headers for streaming the music file
     res.set({
       'Content-Type': 'audio/mpeg',
-      'Content-Length': song.size.toString()
+      'Transfer-Encoding': 'chunked'
     });
 
-    // Send the music file as the response
-    res.sendFile(songFilePath);
+    // Create a readable stream and pipe it to the response
+    const stream = fs.createReadStream(songFilePath);
+    stream.pipe(res);
+
+    stream.on('error', (error) => {
+      console.error('Error streaming audio file:', error);
+    });
+
+    stream.on('end', () => {
+      console.log('Audio file streamed successfully');
+    });
   } catch (error) {
+    console.error('Internal server error:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
-
 // Update a song by ID
 const updateSongById = async (req, res) => {
   try {

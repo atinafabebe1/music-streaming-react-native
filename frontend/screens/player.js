@@ -30,9 +30,9 @@ const PlayerScreen = ({ route }) => {
       console.log(response);
       const soundObject = new Audio.Sound();
 
-      await soundObject.loadAsync({ uri: `${response.url}/audio` }, { shouldPlay: false });
+      await soundObject.loadAsync({ uri: `http://musicify-0umh.onrender.com/api/songs/songs/64739b5fb3584b2ca0e8a8b1/audio` }, { shouldPlay: false });
 
-      setSoundObject(soundObject);
+      http: setSoundObject(soundObject);
       console.log('Audio loaded successfully');
     } catch (error) {
       console.log('Error occurred while loading audio:', error);
