@@ -10,7 +10,6 @@ const SettingsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Settings</Text>
       <View style={styles.settingItem}>
         <Text style={styles.settingText}>Enable Notifications</Text>
         <Switch value={isNotificationEnabled} onValueChange={toggleNotification} />

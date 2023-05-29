@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 import SplashScreen from './screens/splash';
 import HomeScreen from './screens/home';
@@ -13,6 +13,10 @@ import AboutScreen from './screens/about';
 import AlbumScreen from './screens/album';
 import FavoritesScreen from './screens/favorites';
 import PlayerScreen from './screens/player';
+import NotificationScreen from './screens/notification';
+import PlaylistScreen from './screens/playlist';
+import ProfileScreen from './screens/profile';
+import SettingScreen from './screens/settings';
 import AddMusicScreen from './screens/addmusic';
 
 const Tab = createBottomTabNavigator();
@@ -35,7 +39,14 @@ const HomeStack = () => (
       name="Home"
       component={HomeScreen}
       options={{
-        title: 'Home' // Set custom header title
+        title: 'Musicify' // Set custom header title
+      }}
+    />
+    <Stack.Screen
+      name="Notification"
+      component={NotificationScreen}
+      options={{
+        title: 'Notification'
       }}
     />
     <Stack.Screen
@@ -43,6 +54,20 @@ const HomeStack = () => (
       component={AlbumScreen}
       options={{
         title: 'Album'
+      }}
+    />
+    <Stack.Screen
+      name="AddNewMusic"
+      component={AddMusicScreen}
+      options={{
+        title: 'Add new music'
+      }}
+    />
+    <Stack.Screen
+      name="Profile"
+      component={ProfileScreen}
+      options={{
+        title: 'Profile'
       }}
     />
     <Stack.Screen
@@ -70,9 +95,54 @@ const FavoritesStack = () => (
   >
     <Stack.Screen
       name="Favorites"
-      component={AddMusicScreen}
+      component={FavoritesScreen}
       options={{
         title: 'Favorites'
+      }}
+    />
+  </Stack.Navigator>
+);
+
+const PlaylistsStack = () => (
+  <Stack.Navigator
+    screenOptions={{
+      ...TransitionPresets.SlideFromRightIOS,
+      headerStyle: {
+        backgroundColor: '#007bff'
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold'
+      }
+    }}
+  >
+    <Stack.Screen
+      name="Playlist"
+      component={PlaylistScreen}
+      options={{
+        title: 'My Playlist'
+      }}
+    />
+  </Stack.Navigator>
+);
+const SettingsStack = () => (
+  <Stack.Navigator
+    screenOptions={{
+      ...TransitionPresets.SlideFromRightIOS,
+      headerStyle: {
+        backgroundColor: '#007bff'
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold'
+      }
+    }}
+  >
+    <Stack.Screen
+      name="Settings"
+      component={SettingScreen}
+      options={{
+        title: 'Settings'
       }}
     />
   </Stack.Navigator>
@@ -101,28 +171,6 @@ const AboutStack = () => (
   </Stack.Navigator>
 );
 
-const AuthStack = () => (
-  <Stack.Navigator
-    screenOptions={{
-      ...TransitionPresets.SlideFromRightIOS,
-      headerStyle: {
-        backgroundColor: '#007bff'
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold'
-      }
-    }}
-  >
-    <Stack.Screen
-      name="Auth"
-      component={AuthScreen}
-      options={{
-        title: 'Authentication'
-      }}
-    />
-  </Stack.Navigator>
-);
 export default function App() {
   const [isAppReady, setAppReady] = React.useState(false);
 
@@ -153,17 +201,21 @@ export default function App() {
                 iconName = 'heart';
               } else if (route.name === 'AboutStack') {
                 iconName = 'information-circle';
-              } else if (route.name === 'AuthStack') {
-                iconName = 'lock-closed';
+              } else if (route.name === 'SettingStack') {
+                iconName = 'settings';
+              } else if (route.name === 'PlaylistsStack') {
+                return <MaterialIcons name="playlist-add" size={30} color={color} />;
               }
+
               return <Ionicons name={iconName} size={size} color={color} />;
             },
             tabBarLabel: () => null // Hides the tab bar labels
           })}
         >
           <Tab.Screen name="HomeStack" component={HomeStack} options={{ headerShown: false }} />
+          <Tab.Screen name="PlaylistsStack" component={PlaylistsStack} options={{ headerShown: false }} />
           <Tab.Screen name="FavoritesStack" component={FavoritesStack} options={{ headerShown: false }} />
-          <Tab.Screen name="AuthStack" component={AuthStack} options={{ headerShown: false }} />
+          <Tab.Screen name="SettingStack" component={SettingsStack} options={{ headerShown: false }} />
           <Tab.Screen name="AboutStack" component={AboutStack} options={{ headerShown: false }} />
         </Tab.Navigator>
       </NavigationContainer>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, FlatList, Dimensions, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import AlbumItem from '../components/albumItem';
 
 const HomeScreen = ({ navigation }) => {
@@ -15,30 +15,47 @@ const HomeScreen = ({ navigation }) => {
       image: require('../assets/splash.png')
     },
     {
+      id: '2',
+      title: 'Album 1',
+      artist: 'Artist 1',
+      image: require('../assets/splash.png')
+    },
+    {
+      id: '3',
+      title: 'Album 1',
+      artist: 'Artist 1',
+      image: require('../assets/splash.png')
+    },
+    {
+      id: '4',
+      title: 'Album 1',
+      artist: 'Artist 1',
+      image: require('../assets/splash.png')
+    },
+    {
       id: '5',
       title: 'Album 1',
       artist: 'Artist 1',
       image: require('../assets/splash.png')
     },
     {
-      id: '2',
-      title: 'Album 2',
-      artist: 'Artist 2',
+      id: '6',
+      title: 'Album 1',
+      artist: 'Artist 1',
       image: require('../assets/splash.png')
     },
     {
-      id: '3',
-      title: 'Album 3',
-      artist: 'Artist 3',
+      id: '7',
+      title: 'Album 1',
+      artist: 'Artist 1',
       image: require('../assets/splash.png')
     },
     {
-      id: '4',
-      title: 'Album 3',
-      artist: 'Artist 3',
+      id: '8',
+      title: 'Album 1',
+      artist: 'Artist 1',
       image: require('../assets/splash.png')
     }
-    // Add more album data here
   ];
 
   const handleSearch = (query) => {
@@ -57,12 +74,27 @@ const HomeScreen = ({ navigation }) => {
 
   const renderAlbum = ({ item }) => <AlbumItem album={item} handleAlbumPress={handleAlbumPress} />;
 
+  const handleAddMusic = () => {
+    navigation.navigate('AddNewMusic');
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
         <TextInput style={styles.searchInput} placeholder="Search" value={searchQuery} onChangeText={handleSearch} placeholderTextColor="#999" />
-        <TouchableOpacity>
-          <Ionicons name="notifications" size={30} color="#333" style={styles.notificationIcon} />
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Notification');
+          }}
+        >
+          <Ionicons name="notifications-outline" size={24} color="#333" style={styles.icon} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Profile');
+          }}
+        >
+          <MaterialIcons name="account-circle" size={35} color="purple" style={styles.icon} />
         </TouchableOpacity>
       </View>
       <Text style={styles.heading}>New Releases</Text>
@@ -73,6 +105,9 @@ const HomeScreen = ({ navigation }) => {
         numColumns={2}
         columnWrapperStyle={styles.albumList}
       />
+      <TouchableOpacity style={styles.addButton} onPress={handleAddMusic}>
+        <MaterialIcons name="add" size={35} color="#fff" />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -96,14 +131,14 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
     fontSize: 16,
     color: '#333',
     marginRight: 8
   },
-  notificationIcon: {
+  icon: {
     marginRight: 8
   },
   heading: {
@@ -118,6 +153,17 @@ const styles = StyleSheet.create({
   albumItem: {
     width: albumItemWidth,
     marginBottom: 16
+  },
+  addButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor: 'purple',
+    borderRadius: 30,
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 

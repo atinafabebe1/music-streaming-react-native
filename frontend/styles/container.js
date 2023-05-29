@@ -6,7 +6,8 @@ const ContainerStyle = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
+    paddingVertical: 5
   }
 });
 

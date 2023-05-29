@@ -36,7 +36,6 @@ const FavoritesScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Favorites</Text>
       <FlatList data={favorites} renderItem={renderFavoriteItem} keyExtractor={(item) => item.id} contentContainerStyle={styles.favoriteList} />
     </View>
   );

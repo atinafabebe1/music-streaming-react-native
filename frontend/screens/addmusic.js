@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, Alert, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, TextInput, Button, Text, Alert, ActivityIndicator, StyleSheet } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
-import * as Permissions from 'expo-permissions';
+import * as MediaLibrary from 'expo-media-library';
 import axios from 'axios';
+import ButtonStyle from '../styles/button';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import ContainerStyle from '../styles/container';
+import InputStyle from '../styles/input';
 
 const AddMusicScreen = () => {
   const [title, setTitle] = useState('');
@@ -19,9 +23,15 @@ const AddMusicScreen = () => {
   }, []);
 
   const requestPermission = async () => {
-    const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
-    if (status !== 'granted') {
-      Alert.alert('Permission Required', 'Please grant permission to access the media library.');
+    try {
+      const { status } = await MediaLibrary.requestPermissionsAsync();
+
+      if (status !== 'granted') {
+        Alert.alert('Permission Required', 'Please grant permission to access the media library.');
+      }
+    } catch (error) {
+      console.error('Failed to request permission:', error);
+      Alert.alert('Error', 'An unexpected error occurred. Please try again later.');
     }
   };
 
@@ -79,6 +89,13 @@ const AddMusicScreen = () => {
 
   const handleChooseSongFile = async () => {
     try {
+      const { status } = await MediaLibrary.getPermissionsAsync();
+
+      if (status !== 'granted') {
+        Alert.alert('Permission Required', 'Please grant permission to access the media library.');
+        return;
+      }
+
       const result = await DocumentPicker.getDocumentAsync({
         type: 'audio/mpeg',
         copyToCacheDirectory: false
@@ -100,31 +117,25 @@ const AddMusicScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <TextInput style={styles.input} placeholder="Title" value={title} onChangeText={setTitle} />
-      <TextInput style={styles.input} placeholder="Artist" value={artist} onChangeText={setArtist} />
-      <TextInput style={styles.input} placeholder="Album" value={album} onChangeText={setAlbum} />
-      <TextInput style={styles.input} placeholder="Duration" value={duration} onChangeText={setDuration} />
-      <TextInput style={styles.input} placeholder="Genre" value={genre} onChangeText={setGenre} />
-      <Button title="Choose Song File" onPress={handleChooseSongFile} disabled={isLoading} />
-      <Button title="Add Music" onPress={handleAddMusic} disabled={isLoading} />
+    <View style={ContainerStyle.container}>
+      <TextInput style={InputStyle.input} placeholder="Title" value={title} onChangeText={setTitle} />
+      <TextInput style={InputStyle.input} placeholder="Artist" value={artist} onChangeText={setArtist} />
+      <TextInput style={InputStyle.input} placeholder="Album" value={album} onChangeText={setAlbum} />
+      <TextInput style={InputStyle.input} placeholder="Duration" value={duration} onChangeText={setDuration} />
+      <TextInput style={InputStyle.input} placeholder="Genre" value={genre} onChangeText={setGenre} />
+
+      <TouchableOpacity style={ButtonStyle.button} onPress={handleChooseSongFile} disabled={isLoading}>
+        <Text style={ButtonStyle.buttonText}>Choose song file</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={ButtonStyle.button} disabled={isLoading} onPress={handleAddMusic}>
+        <Text style={ButtonStyle.buttonText}>Add Music</Text>
+      </TouchableOpacity>
       {isLoading && <ActivityIndicator size="large" color="#0000ff" style={styles.loadingIndicator} />}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16
-  },
-  input: {
-    marginBottom: 12,
-    padding: 8,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 4
-  },
   loadingIndicator: {
     marginTop: 16
   }

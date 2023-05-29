@@ -60,7 +60,7 @@ const PlayerScreen = ({ route }) => {
     try {
       const soundObject = new Audio.Sound();
       await soundObject.loadAsync(
-        { uri: 'http://musicify-0umh.onrender.com/api/songs/songs/6473c49ef0da7a0034f24e12/audio' },
+        { uri: 'http://musicify-0umh.onrender.com/api/songs/songs/6474af412b2e960034162228/audio' },
         { shouldPlay: false },
         false
       );
@@ -135,9 +135,6 @@ const PlayerScreen = ({ route }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.volumeContainer}>
-        <TouchableOpacity style={styles.volumeButton} onPress={() => handleVolumeChange(volume - 0.1)}>
-          <AntDesign name="minus" size={24} color="#555" />
-        </TouchableOpacity>
         <Slider
           style={styles.volumeSlider}
           minimumValue={0}
@@ -148,14 +145,11 @@ const PlayerScreen = ({ route }) => {
           maximumTrackTintColor="#aaa"
           thumbTintColor="#6a1b9a"
         />
-        <TouchableOpacity style={styles.volumeButton} onPress={() => handleVolumeChange(volume + 0.1)}>
-          <AntDesign name="plus" size={24} color="#555" />
-        </TouchableOpacity>
+
         <TouchableOpacity style={styles.muteButton} onPress={toggleMute}>
           <AntDesign name={isMuted ? 'sound' : 'sound'} size={24} color={isMuted ? '#6a1b9a' : '#555'} />
         </TouchableOpacity>
       </View>
-      <Text style={styles.additionalInfo}>Additional Information:</Text>
       <Text style={styles.infoText}>Album: {song.album}</Text>
       <Text style={styles.infoText}>Genre: {song.genre}</Text>
     </View>
@@ -222,7 +216,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
-    width: '80%'
+    width: '60%'
   },
   volumeSlider: {
     flex: 1,
@@ -249,13 +243,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 2,
     elevation: 3
-  },
-  additionalInfo: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#555',
-    marginBottom: 10,
-    textDecorationLine: 'underline'
   },
   infoText: {
     fontSize: 16,
