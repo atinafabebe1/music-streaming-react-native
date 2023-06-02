@@ -8,7 +8,8 @@ const ButtonStyle = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '90%'
+    width: 240,
+    margin: 2
   },
   buttonText: {
     color: '#fff',

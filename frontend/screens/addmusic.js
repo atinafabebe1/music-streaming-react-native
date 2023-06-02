@@ -4,8 +4,9 @@ import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
 import axios from 'axios';
-import ButtonStyle from '../styles/button';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
+import ButtonStyle from '../styles/button';
 import ContainerStyle from '../styles/container';
 import InputStyle from '../styles/input';
 
@@ -120,22 +121,33 @@ const AddMusicScreen = () => {
     <View style={ContainerStyle.container}>
       <TextInput style={InputStyle.input} placeholder="Title" value={title} onChangeText={setTitle} />
       <TextInput style={InputStyle.input} placeholder="Artist" value={artist} onChangeText={setArtist} />
+      {/* make the album a drop down so use can select his album to for the song */}
       <TextInput style={InputStyle.input} placeholder="Album" value={album} onChangeText={setAlbum} />
       <TextInput style={InputStyle.input} placeholder="Duration" value={duration} onChangeText={setDuration} />
       <TextInput style={InputStyle.input} placeholder="Genre" value={genre} onChangeText={setGenre} />
 
-      <TouchableOpacity style={ButtonStyle.button} onPress={handleChooseSongFile} disabled={isLoading}>
-        <Text style={ButtonStyle.buttonText}>Choose song file</Text>
+      <TouchableOpacity style={styles.button} onPress={handleChooseSongFile} disabled={isLoading}>
+        <Text>Choose Song File</Text>
       </TouchableOpacity>
       <TouchableOpacity style={ButtonStyle.button} disabled={isLoading} onPress={handleAddMusic}>
         <Text style={ButtonStyle.buttonText}>Add Music</Text>
       </TouchableOpacity>
+
       {isLoading && <ActivityIndicator size="large" color="#0000ff" style={styles.loadingIndicator} />}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  button: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    fontSize: 16,
+    marginBottom: 12
+  },
   loadingIndicator: {
     marginTop: 16
   }

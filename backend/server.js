@@ -17,7 +17,7 @@ mongoose
   })
   .catch((error) => {
     console.error('Failed to connect to MongoDB', error);
-    process.exit(1); // Terminate the application if unable to connect to the database
+    process.exit(1);
   });
 
 // Middleware
@@ -30,6 +30,10 @@ app.use('/api/songs', songRouter);
 // User routes
 const userRouter = require('./routes/user');
 app.use('/api/users', userRouter);
+
+// Album routes
+const albumRouter = require('./routes/album');
+app.use('/api/albums', albumRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

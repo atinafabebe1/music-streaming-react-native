@@ -60,7 +60,7 @@ const PlayerScreen = ({ route }) => {
     try {
       const soundObject = new Audio.Sound();
       await soundObject.loadAsync(
-        { uri: 'http://musicify-0umh.onrender.com/api/songs/songs/6474af412b2e960034162228/audio' },
+        { uri: 'http://musicify-0umh.onrender.com/api/songs/songs/64750dfc560a4700343a6c78/audio' },
         { shouldPlay: false },
         false
       );

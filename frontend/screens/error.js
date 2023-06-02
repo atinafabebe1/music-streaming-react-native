@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import ContainerStyle from '../styles/container';
+import TextStyle from '../styles/text';
 
 const ErrorScreen = ({ error, onRetry }) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Oops, something went wrong!</Text>
+    <View style={ContainerStyle.container}>
+      <Text style={TextStyle.heading}>Oops, something went wrong!</Text>
       <Text style={styles.errorText}>{error}</Text>
       <TouchableOpacity style={styles.button} onPress={onRetry}>
         <Text style={styles.buttonText}>Retry</Text>
@@ -14,19 +16,6 @@ const ErrorScreen = ({ error, onRetry }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    paddingHorizontal: 16
-  },
-  heading: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-    textAlign: 'center'
-  },
   errorText: {
     fontSize: 16,
     marginBottom: 32,

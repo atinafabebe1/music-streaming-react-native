@@ -1,71 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TextInput, FlatList, Dimensions, TouchableOpacity } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import AlbumItem from '../components/albumItem';
+import axios from 'axios';
 
 const HomeScreen = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredAlbums, setFilteredAlbums] = useState([]);
+  const [albums, setAlbums] = useState([]);
+  const [error, setError] = useState([]);
 
-  const albums = [
-    {
-      id: '1',
-      title: 'Album 1',
-      artist: 'Artist 1',
-      image: require('../assets/splash.png')
-    },
-    {
-      id: '2',
-      title: 'Album 1',
-      artist: 'Artist 1',
-      image: require('../assets/splash.png')
-    },
-    {
-      id: '3',
-      title: 'Album 1',
-      artist: 'Artist 1',
-      image: require('../assets/splash.png')
-    },
-    {
-      id: '4',
-      title: 'Album 1',
-      artist: 'Artist 1',
-      image: require('../assets/splash.png')
-    },
-    {
-      id: '5',
-      title: 'Album 1',
-      artist: 'Artist 1',
-      image: require('../assets/splash.png')
-    },
-    {
-      id: '6',
-      title: 'Album 1',
-      artist: 'Artist 1',
-      image: require('../assets/splash.png')
-    },
-    {
-      id: '7',
-      title: 'Album 1',
-      artist: 'Artist 1',
-      image: require('../assets/splash.png')
-    },
-    {
-      id: '8',
-      title: 'Album 1',
-      artist: 'Artist 1',
-      image: require('../assets/splash.png')
-    }
-  ];
+  // const albums = [
+  //   {
+  //     id: '1',
+  //     title: 'Album 1',
+  //     artist: 'Artist 1',
+  //     image: require('../assets/splash.png')
+  //   },
+  // ];
+  useEffect(() => {
+    fetchAlbums();
+  }, []);
+
+  const fetchAlbums = async () => {
+    await axios
+      .get('http://musicify-0umh.onrender.com/api/songs/songs')
+      .then((res) => {
+        setAlbums(res.data);
+      })
+      .catch((err) => {
+        setError(err);
+      });
+  };
 
   const handleSearch = (query) => {
-    setSearchQuery(query);
-
-    const filteredAlbums = albums.filter(
-      (album) => album.title.toLowerCase().includes(query.toLowerCase()) || album.artist.toLowerCase().includes(query.toLowerCase())
-    );
-
-    setFilteredAlbums(filteredAlbums);
+    //make this to fetch data from server by a filed user queried
   };
 
   const handleAlbumPress = (album) => {

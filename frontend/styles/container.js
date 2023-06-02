@@ -7,7 +7,7 @@ const ContainerStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    paddingVertical: 5
+    paddingVertical: 3
   }
 });
 

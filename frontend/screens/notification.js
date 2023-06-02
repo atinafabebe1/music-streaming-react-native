@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import ContainerStyle from '../styles/container';
 
 const NotificationScreen = () => {
   return (
-    <View style={styles.container}>
+    <View style={ContainerStyle.container}>
       <View style={styles.notification}>
         <Text style={styles.notificationText}>New album available: "Artist Name - Album Title"</Text>
         <Text style={styles.notificationTime}>10 minutes ago</Text>
@@ -25,15 +26,6 @@ const NotificationScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16
-  },
   notification: {
     backgroundColor: '#F5F5F5',
     borderRadius: 8,

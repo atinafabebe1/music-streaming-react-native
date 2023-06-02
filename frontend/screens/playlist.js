@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import ContainerStyle from '../styles/container';
+import TextStyle from '../styles/text';
 
 const PlaylistScreen = () => {
   const playlistData = [
@@ -10,29 +12,19 @@ const PlaylistScreen = () => {
 
   const renderPlaylistItem = ({ item }) => (
     <TouchableOpacity style={styles.itemContainer}>
-      <Text style={styles.title}>{item.title}</Text>
+      <Text style={TextStyle.title}>{item.title}</Text>
       <Text style={styles.artist}>{item.artist}</Text>
     </TouchableOpacity>
   );
 
   return (
-    <View style={styles.container}>
+    <View style={ContainerStyle.container}>
       <FlatList data={playlistData} renderItem={renderPlaylistItem} keyExtractor={(item) => item.id} style={styles.playlist} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#FFFFFF'
-  },
-  heading: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16
-  },
   playlist: {
     flex: 1
   },
@@ -40,11 +32,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#CCCCCC',
     paddingVertical: 16
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 4
   },
   artist: {
     fontSize: 14,

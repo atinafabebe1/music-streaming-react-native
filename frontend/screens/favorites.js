@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import ContainerStyle from '../styles/container';
 
 const FavoritesScreen = () => {
   const [favorites, setFavorites] = useState([
@@ -35,27 +36,13 @@ const FavoritesScreen = () => {
   );
 
   return (
-    <View style={styles.container}>
+    <View style={ContainerStyle.container}>
       <FlatList data={favorites} renderItem={renderFavoriteItem} keyExtractor={(item) => item.id} contentContainerStyle={styles.favoriteList} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingHorizontal: 16,
-    paddingTop: 24
-  },
-  heading: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-    color: '#333',
-    textAlign: 'center',
-    textTransform: 'uppercase'
-  },
   favoriteList: {
     paddingBottom: 24
   },
