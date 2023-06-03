@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const ProfileModal = ({ closeModal, navigation }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -27,22 +28,19 @@ const ProfileModal = ({ closeModal, navigation }) => {
 
   const getUserInfo = async (token) => {
     try {
-      const response = await fetch('https://musicify-0umh.onrender.com/api/users/getme', {
-        method: 'GET',
+      const response = await axios.post('https://musicify-0umh.onrender.com/api/users/getme', {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-      console.log('hellskdjkffffffffffffffffffffffffffffffffffffffffffffffffffh');
-
-      if (response.ok) {
-        const data = await response.json();
-        setUserInfo(data);
+      console.log(response);
+      if (response.status === 200) {
+        setUserInfo(response.data);
       } else {
         console.log('Failed to fetch user information:', response.status);
       }
     } catch (error) {
-      console.log('Error fetching user information:', error);
+      console.log(error);
     }
   };
 
@@ -75,7 +73,7 @@ const ProfileModal = ({ closeModal, navigation }) => {
           <Button title="Logout" onPress={handleLogout} color="#FF0000" />
         ) : (
           <View>
-            <Button title="Login" onPress={() => handleLoginClicked()} color="#1E90FF" />
+            <Button title="Login" onPress={handleLoginClicked} color="#1E90FF" />
           </View>
         )}
         <Button title="Close" onPress={closeModal} color="#808080" />
