@@ -7,8 +7,11 @@ const requireAuth = (req, res, next) => {
   }
 
   try {
+    // Split the token to remove the "Bearer " prefix
+    const tokenValue = token.split(' ')[1];
+
     // Verify the token
-    const decoded = jwt.verify(token, 'secretKey');
+    const decoded = jwt.verify(tokenValue, 'secretKey');
 
     console.log(decoded);
     req.userId = decoded.userId;
