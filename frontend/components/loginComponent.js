@@ -4,25 +4,29 @@ import ContainerStyle from '../styles/container';
 import TextStyle from '../styles/text';
 import InputStyle from '../styles/input';
 import ButtonStyle from '../styles/button';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const LoginComponent = ({ toggleScreen }) => {
-  const [email, setEmail] = useState('');
+const LoginComponent = ({ toggleScreen, navigation }) => {
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://your-backend-url/api/auth/login', {
-        username: 'your-username',
-        password: 'your-password'
+      const response = await axios.post('https://musicify-0umh.onrender.com/api/users/login', {
+        username: username,
+        password: password
       });
 
       const { token } = response.data;
+      console.log('token');
+      console.log(token);
 
       // Store the token securely on the client-side
       await AsyncStorage.setItem('token', token);
 
       // Update the app's state or navigate to the authenticated screen
-      // ...
+      navigation.navigate('Home');
     } catch (error) {
       console.error('Error during login:', error);
       // Handle error response
@@ -35,11 +39,11 @@ const LoginComponent = ({ toggleScreen }) => {
       <Text style={TextStyle.heading}>Login</Text>
       <TextInput
         style={InputStyle.input}
-        placeholder="Email"
-        onChangeText={(text) => setEmail(text)}
-        value={email}
+        placeholder="username"
+        onChangeText={(text) => setUsername(text)}
+        value={username}
         autoCapitalize="none"
-        keyboardType="email-address"
+        keyboardType="username"
       />
       <TextInput style={InputStyle.input} placeholder="Password" secureTextEntry onChangeText={(text) => setPassword(text)} value={password} />
       <TouchableOpacity style={styles.button} onPress={handleLogin}>

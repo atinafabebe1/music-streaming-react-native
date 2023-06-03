@@ -3,7 +3,8 @@ import { View, StyleSheet, Text } from 'react-native';
 import LoginComponent from '../components/loginComponent.js';
 import SignupComponent from '../components/SignupComponent.js';
 import ContainerStyle from '../styles/container.js';
-const AuthScreen = () => {
+
+const AuthScreen = ({ navigation }) => {
   const [showLogin, setShowLogin] = useState(true);
 
   const toggleScreen = () => {
@@ -12,7 +13,7 @@ const AuthScreen = () => {
 
   return (
     <View style={ContainerStyle.container}>
-      {showLogin ? <LoginComponent toggleScreen={toggleScreen} /> : <SignupComponent toggleScreen={toggleScreen} />}
+      {showLogin ? <LoginComponent toggleScreen={toggleScreen} navigation={navigation} /> : <SignupComponent toggleScreen={toggleScreen} />}
     </View>
   );
 };
