@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ProfileModal = ({ closeModal, navigation }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
     checkLoginStatus();
@@ -14,11 +15,34 @@ const ProfileModal = ({ closeModal, navigation }) => {
       const token = await AsyncStorage.getItem('token');
       if (token) {
         setIsLoggedIn(true);
+        getUserInfo(token);
       } else {
         setIsLoggedIn(false);
+        setUserInfo(null);
       }
     } catch (error) {
       console.log('Error reading token from AsyncStorage:', error);
+    }
+  };
+
+  const getUserInfo = async (token) => {
+    try {
+      const response = await fetch('https://musicify-0umh.onrender.com/api/users/getme', {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log('hellskdjkffffffffffffffffffffffffffffffffffffffffffffffffffh');
+
+      if (response.ok) {
+        const data = await response.json();
+        setUserInfo(data);
+      } else {
+        console.log('Failed to fetch user information:', response.status);
+      }
+    } catch (error) {
+      console.log('Error fetching user information:', error);
     }
   };
 
@@ -32,6 +56,7 @@ const ProfileModal = ({ closeModal, navigation }) => {
       // Perform logout logic and clear the token from AsyncStorage
       await AsyncStorage.removeItem('token');
       setIsLoggedIn(false);
+      setUserInfo(null);
     } catch (error) {
       console.log('Error removing token from AsyncStorage:', error);
     }
@@ -41,11 +66,11 @@ const ProfileModal = ({ closeModal, navigation }) => {
     <View style={styles.modalContainer}>
       <View style={styles.modalContent}>
         <Text style={styles.modalHeading}>Profile</Text>
-        <View style={styles.profileInfo}>
-          <Text style={styles.profileText}>Name: John Doe</Text>
-          <Text style={styles.profileText}>Email: johndoe@example.com</Text>
-          {/* Add more profile information */}
-        </View>
+        {userInfo && (
+          <View style={styles.profileInfo}>
+            <Text style={styles.profileText}>Email: {userInfo.email}</Text>
+          </View>
+        )}
         {isLoggedIn ? (
           <Button title="Logout" onPress={handleLogout} color="#FF0000" />
         ) : (
