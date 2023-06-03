@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TextInput, FlatList, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, FlatList, Dimensions, TouchableOpacity, Modal } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import AlbumItem from '../components/albumItem';
 import axios from 'axios';
+import ProfileModal from './profile';
 
 const HomeScreen = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredAlbums, setFilteredAlbums] = useState([]);
   const [albums, setAlbums] = useState([]);
   const [error, setError] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
 
-  // const albums = [
-  //   {
-  //     id: '1',
-  //     title: 'Album 1',
-  //     artist: 'Artist 1',
-  //     image: require('../assets/splash.png')
-  //   },
-  // ];
   useEffect(() => {
     fetchAlbums();
   }, []);
@@ -34,7 +28,7 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const handleSearch = (query) => {
-    //make this to fetch data from server by a filed user queried
+    // Make this fetch data from the server by a field the user queried
   };
 
   const handleAlbumPress = (album) => {
@@ -47,22 +41,18 @@ const HomeScreen = ({ navigation }) => {
     navigation.navigate('AddNewMusic');
   };
 
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
         <TextInput style={styles.searchInput} placeholder="Search" value={searchQuery} onChangeText={handleSearch} placeholderTextColor="#999" />
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Notification');
-          }}
-        >
+        <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
           <Ionicons name="notifications-outline" size={24} color="#333" style={styles.icon} />
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Profile');
-          }}
-        >
+        <TouchableOpacity onPress={toggleModal}>
           <MaterialIcons name="account-circle" size={35} color="purple" style={styles.icon} />
         </TouchableOpacity>
       </View>
@@ -77,6 +67,9 @@ const HomeScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.addButton} onPress={handleAddMusic}>
         <MaterialIcons name="add" size={35} color="#fff" />
       </TouchableOpacity>
+      <Modal visible={modalVisible} animationType="slide" transparent={true}>
+        <ProfileModal closeModal={toggleModal} navigation={navigation} />
+      </Modal>
     </View>
   );
 };

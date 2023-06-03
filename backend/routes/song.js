@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const songController = require('../controller/song');
+const { requireAuth } = require('../middleware/auth');
 
 // Create a storage engine for multer
 const storage = multer.diskStorage({
@@ -32,7 +33,7 @@ const upload = multer({
 });
 
 // Create a new song with file upload
-router.post('/songs', upload.single('songFile'), songController.createSong);
+router.post('/songs', upload.single('songFile'), requireAuth, songController.createSong);
 
 // Get all songs
 router.get('/songs', songController.getAllSongs);
@@ -42,9 +43,9 @@ router.get('/songs/:id', songController.getSongById);
 router.get('/songs/:id/audio', songController.getSongAudioById);
 
 // Update a song by ID
-router.put('/songs/:id', songController.updateSongById);
+router.put('/songs/:id', requireAuth, songController.updateSongById);
 
 // Delete a song by ID
-router.delete('/songs/:id', songController.deleteSongById);
+router.delete('/songs/:id', requireAuth, songController.deleteSongById);
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const User = require('../model/user');
+const jwt = require('jsonwebtoken');
 
 // Controller for user registration
 const registerUser = async (req, res) => {
@@ -28,11 +29,19 @@ const loginUser = async (req, res) => {
 
     // Check if the user exists and password matches
     const user = await User.findOne({ username });
-    if (!user || !user.isValidPassword(password)) {
+
+    const isValidPassword = (password) => {
+      if (user.password === password) {
+        return true;
+      }
+      return false;
+    };
+    if (!user || !isValidPassword(password)) {
       return res.status(401).json({ message: 'Invalid username or password' });
     }
+    const token = jwt.sign({ userId: user._id }, 'secretKey');
 
-    res.status(200).json({ message: 'User logged in successfully' });
+    res.status(200).json({ token });
   } catch (error) {
     res.status(500).json({ message: 'Failed to login user', error: error.message });
   }

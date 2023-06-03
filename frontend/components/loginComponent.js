@@ -9,9 +9,25 @@ const LoginComponent = ({ toggleScreen }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    // Perform login logic here
-    console.log('Login clicked');
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('http://your-backend-url/api/auth/login', {
+        username: 'your-username',
+        password: 'your-password'
+      });
+
+      const { token } = response.data;
+
+      // Store the token securely on the client-side
+      await AsyncStorage.setItem('token', token);
+
+      // Update the app's state or navigate to the authenticated screen
+      // ...
+    } catch (error) {
+      console.error('Error during login:', error);
+      // Handle error response
+      // ...
+    }
   };
 
   return (

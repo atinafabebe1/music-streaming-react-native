@@ -4,6 +4,7 @@ import ContainerStyle from '../styles/container';
 import TextStyle from '../styles/text';
 
 const PlaylistScreen = () => {
+  
   const playlistData = [
     { id: '1', title: 'Song 1', artist: 'Artist 1' },
     { id: '2', title: 'Song 2', artist: 'Artist 2' },

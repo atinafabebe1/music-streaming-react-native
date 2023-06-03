@@ -71,6 +71,13 @@ const HomeStack = () => (
       }}
     />
     <Stack.Screen
+      name="Auth"
+      component={AuthScreen}
+      options={{
+        title: 'Auth'
+      }}
+    />
+    <Stack.Screen
       name="Player"
       component={PlayerScreen}
       options={{

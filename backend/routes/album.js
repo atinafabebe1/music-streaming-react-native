@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const albumController = require('../controller/album');
+const { requireAuth } = require('../middleware/auth');
 
 // Create a new song with file upload
 router.post('/album', albumController.createalbum);
@@ -12,9 +13,9 @@ router.get('/', albumController.getAllalbums);
 router.get('/:id', albumController.getalbumById);
 
 // Update a song by ID
-router.put('/:id', albumController.updatealbumById);
+router.put('/:id', requireAuth, albumController.updatealbumById);
 
 // Delete a song by ID
-router.delete('/:id', albumController.deletealbumById);
+router.delete('/:id', requireAuth, albumController.deletealbumById);
 
 module.exports = router;
