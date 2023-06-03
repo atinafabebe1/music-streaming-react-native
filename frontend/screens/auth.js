@@ -13,7 +13,11 @@ const AuthScreen = ({ navigation }) => {
 
   return (
     <View style={ContainerStyle.container}>
-      {showLogin ? <LoginComponent toggleScreen={toggleScreen} navigation={navigation} /> : <SignupComponent toggleScreen={toggleScreen} />}
+      {showLogin ? (
+        <LoginComponent toggleScreen={toggleScreen} navigation={navigation} />
+      ) : (
+        <SignupComponent toggleScreen={toggleScreen} navigation={navigation} />
+      )}
     </View>
   );
 };

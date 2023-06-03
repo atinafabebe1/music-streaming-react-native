@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { AuthContext } from '../context/authContext';
 
 const ProfileModal = ({ closeModal, navigation }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, logout } = useContext(AuthContext);
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
@@ -15,10 +16,8 @@ const ProfileModal = ({ closeModal, navigation }) => {
     try {
       const token = await AsyncStorage.getItem('token');
       if (token) {
-        setIsLoggedIn(true);
         getUserInfo(token);
       } else {
-        setIsLoggedIn(false);
         setUserInfo(null);
       }
     } catch (error) {
@@ -28,12 +27,12 @@ const ProfileModal = ({ closeModal, navigation }) => {
 
   const getUserInfo = async (token) => {
     try {
-      const response = await axios.post('https://musicify-0umh.onrender.com/api/users/getme', {
+      const response = await axios.post('https://musicify-0umh.onrender.com/api/users/getme', null, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-      console.log(response);
+
       if (response.status === 200) {
         setUserInfo(response.data);
       } else {
@@ -50,14 +49,8 @@ const ProfileModal = ({ closeModal, navigation }) => {
   };
 
   const handleLogout = async () => {
-    try {
-      // Perform logout logic and clear the token from AsyncStorage
-      await AsyncStorage.removeItem('token');
-      setIsLoggedIn(false);
-      setUserInfo(null);
-    } catch (error) {
-      console.log('Error removing token from AsyncStorage:', error);
-    }
+    await logout();
+    setUserInfo(null);
   };
 
   return (
@@ -67,6 +60,7 @@ const ProfileModal = ({ closeModal, navigation }) => {
         {userInfo && (
           <View style={styles.profileInfo}>
             <Text style={styles.profileText}>Email: {userInfo.email}</Text>
+            <Text style={styles.profileText}>Username: {userInfo.username}</Text>
           </View>
         )}
         {isLoggedIn ? (
@@ -92,7 +86,15 @@ const styles = StyleSheet.create({
   modalContent: {
     backgroundColor: '#fff',
     padding: 20,
-    borderRadius: 8
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
   },
   modalHeading: {
     fontSize: 24,
@@ -105,11 +107,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
     padding: 20,
     borderRadius: 8,
-    marginBottom: 16
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 2
   },
   profileText: {
     fontSize: 16,
-    marginBottom: 8
+    marginBottom: 8,
+    color: '#555'
   }
 });
 

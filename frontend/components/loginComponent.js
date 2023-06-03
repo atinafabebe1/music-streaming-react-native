@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import ContainerStyle from '../styles/container';
 import TextStyle from '../styles/text';
@@ -6,8 +6,10 @@ import InputStyle from '../styles/input';
 import ButtonStyle from '../styles/button';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContext } from '../context/authContext';
 
 const LoginComponent = ({ toggleScreen, navigation }) => {
+  const { login } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -19,13 +21,8 @@ const LoginComponent = ({ toggleScreen, navigation }) => {
       });
 
       const { token } = response.data;
-      console.log('token');
-      console.log(token);
-
-      // Store the token securely on the client-side
       await AsyncStorage.setItem('token', token);
-
-      // Update the app's state or navigate to the authenticated screen
+      await login(token);
       navigation.navigate('Home');
     } catch (error) {
       console.error('Error during login:', error);

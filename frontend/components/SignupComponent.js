@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import axios from 'axios';
 import LoginComponent from './loginComponent';
 
-const SignupComponent = ({ toggleScreen }) => {
+const SignupComponent = ({ toggleScreen, navigation }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -34,7 +34,7 @@ const SignupComponent = ({ toggleScreen }) => {
   };
 
   if (signupSuccess) {
-    return <LoginComponent toggleScreen={toggleScreen} />;
+    return <LoginComponent toggleScreen={toggleScreen} navigation={navigation} />;
   }
 
   return (

@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const requireAuth = (req, res, next) => {
+  console.log(req.headers);
   const token = req.headers.authorization;
   if (!token) {
     console.log('token not found');

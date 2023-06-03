@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-
+import { AuthProvider } from './context/authContext';
 import SplashScreen from './screens/splash';
 import HomeScreen from './screens/home';
 import AuthScreen from './screens/auth';
@@ -194,39 +194,41 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <NavigationContainer>
-        <Tab.Navigator
-          initialRouteName="HomeStack"
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ color, size }) => {
-              let iconName;
-              if (route.name === 'HomeStack') {
-                iconName = 'home';
-              } else if (route.name === 'FavoritesStack') {
-                iconName = 'heart';
-              } else if (route.name === 'AboutStack') {
-                iconName = 'information-circle';
-              } else if (route.name === 'SettingStack') {
-                iconName = 'settings';
-              } else if (route.name === 'PlaylistsStack') {
-                return <MaterialIcons name="playlist-add" size={30} color={color} />;
-              }
+    <AuthProvider>
+      <View style={styles.container}>
+        <StatusBar style="auto" />
+        <NavigationContainer>
+          <Tab.Navigator
+            initialRouteName="HomeStack"
+            screenOptions={({ route }) => ({
+              tabBarIcon: ({ color, size }) => {
+                let iconName;
+                if (route.name === 'HomeStack') {
+                  iconName = 'home';
+                } else if (route.name === 'FavoritesStack') {
+                  iconName = 'heart';
+                } else if (route.name === 'AboutStack') {
+                  iconName = 'information-circle';
+                } else if (route.name === 'SettingStack') {
+                  iconName = 'settings';
+                } else if (route.name === 'PlaylistsStack') {
+                  return <MaterialIcons name="playlist-add" size={30} color={color} />;
+                }
 
-              return <Ionicons name={iconName} size={size} color={color} />;
-            },
-            tabBarLabel: () => null // Hides the tab bar labels
-          })}
-        >
-          <Tab.Screen name="HomeStack" component={HomeStack} options={{ headerShown: false }} />
-          <Tab.Screen name="PlaylistsStack" component={PlaylistsStack} options={{ headerShown: false }} />
-          <Tab.Screen name="FavoritesStack" component={FavoritesStack} options={{ headerShown: false }} />
-          <Tab.Screen name="SettingStack" component={SettingsStack} options={{ headerShown: false }} />
-          <Tab.Screen name="AboutStack" component={AboutStack} options={{ headerShown: false }} />
-        </Tab.Navigator>
-      </NavigationContainer>
-    </View>
+                return <Ionicons name={iconName} size={size} color={color} />;
+              },
+              tabBarLabel: () => null // Hides the tab bar labels
+            })}
+          >
+            <Tab.Screen name="HomeStack" component={HomeStack} options={{ headerShown: false }} />
+            <Tab.Screen name="PlaylistsStack" component={PlaylistsStack} options={{ headerShown: false }} />
+            <Tab.Screen name="FavoritesStack" component={FavoritesStack} options={{ headerShown: false }} />
+            <Tab.Screen name="SettingStack" component={SettingsStack} options={{ headerShown: false }} />
+            <Tab.Screen name="AboutStack" component={AboutStack} options={{ headerShown: false }} />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </View>
+    </AuthProvider>
   );
 }
 

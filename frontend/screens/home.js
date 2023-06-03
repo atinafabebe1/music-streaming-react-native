@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, StyleSheet, TextInput, FlatList, Dimensions, TouchableOpacity, Modal } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import AlbumItem from '../components/albumItem';
 import axios from 'axios';
 import ProfileModal from './profile';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContext } from '../context/authContext';
 
 const HomeScreen = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -11,20 +13,20 @@ const HomeScreen = ({ navigation }) => {
   const [albums, setAlbums] = useState([]);
   const [error, setError] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const { isLoggedIn } = useContext(AuthContext);
 
   useEffect(() => {
     fetchAlbums();
+    checkLoginStatus();
   }, []);
 
   const fetchAlbums = async () => {
-    await axios
-      .get('http://musicify-0umh.onrender.com/api/songs/songs')
-      .then((res) => {
-        setAlbums(res.data);
-      })
-      .catch((err) => {
-        setError(err);
-      });
+    try {
+      const response = await axios.get('http://musicify-0umh.onrender.com/api/songs/songs');
+      setAlbums(response.data);
+    } catch (error) {
+      setError(error);
+    }
   };
 
   const handleSearch = (query) => {
@@ -43,6 +45,17 @@ const HomeScreen = ({ navigation }) => {
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
+  };
+
+  const checkLoginStatus = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      console.log('token');
+      console.log(token);
+    } catch (error) {
+      console.log('Error reading token from AsyncStorage:', error);
+      // Handle the error appropriately (e.g., show an error message)
+    }
   };
 
   return (
@@ -64,9 +77,12 @@ const HomeScreen = ({ navigation }) => {
         numColumns={2}
         columnWrapperStyle={styles.albumList}
       />
-      <TouchableOpacity style={styles.addButton} onPress={handleAddMusic}>
-        <MaterialIcons name="add" size={35} color="#fff" />
-      </TouchableOpacity>
+      {isLoggedIn && (
+        <TouchableOpacity style={styles.addButton} onPress={handleAddMusic}>
+          <MaterialIcons name="add" size={35} color="#fff" />
+        </TouchableOpacity>
+      )}
+
       <Modal visible={modalVisible} animationType="slide" transparent={true}>
         <ProfileModal closeModal={toggleModal} navigation={navigation} />
       </Modal>
