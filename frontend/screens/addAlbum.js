@@ -32,9 +32,14 @@ const AddAlbumScreen = () => {
         name: 'coverImage.jpg',
         type: 'image/jpg'
       }); // Append the cover image to the form data
-
-      const response = await axios.post('https://musicify-0umh.onrender.com/api/albums/album', formData, {});
-
+      console.log(title);
+      const response = await axios.post('https://musicify-0umh.onrender.com/api/albums/album', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      console.log('response');
+      console.log(response);
       setTitle('');
       setGenre('');
       setDescription('');
@@ -43,14 +48,8 @@ const AddAlbumScreen = () => {
       Alert.alert('Success', 'Music added successfully.');
     } catch (error) {
       setIsLoading(false);
-
-      if (error.response) {
-        console.error('Axios Error:', error.response);
-        Alert.alert('Error', `Failed to add music. ${error.message}`);
-      } else {
-        console.error('Error:', error);
-        Alert.alert('Error', 'An unexpected error occurred. Please try again later.');
-      }
+      console.error('Error:', error); // Log the error for debugging
+      Alert.alert('Error', `An unexpected error occurred. ${error.message}`);
     }
   };
 
@@ -69,8 +68,8 @@ const AddAlbumScreen = () => {
         quality: 1
       });
 
-      if (!result.cancelled) {
-        setCoverImage(result.uri);
+      if (!result.canceled) {
+        setCoverImage(result.assets);
       }
     } catch (error) {
       console.error('Error:', error);
