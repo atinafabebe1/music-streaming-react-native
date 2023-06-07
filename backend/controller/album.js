@@ -1,14 +1,25 @@
 const Album = require('../model/album');
+const path = require('path');
+const fs = require('fs');
 
 const createalbum = async (req, res) => {
   try {
     const { title, description, genre } = req.body;
+
+    // Check if a file was uploaded
+    let coverImage = '';
+    if (req.file) {
+      coverImage = req.file.path; // Save the path of the uploaded file
+    }
+
     const album = await Album.create({
       title,
       genre,
       description,
+      coverImage, // Save the file path in the album data
       user: req.user._id
     });
+
     res.status(201).json(album);
   } catch (error) {
     console.error(error);
@@ -21,7 +32,32 @@ const getAllalbums = async (req, res) => {
   try {
     const albums = await Album.find();
 
-    res.json(albums);
+    // Retrieve the cover image for each album
+    const albumsWithCoverImage = await Promise.all(
+      albums.map(async (album) => {
+        const { _id, title, genre, description, user } = album;
+
+        // Retrieve the filename from the coverImage field
+        const filename = path.basename(album.coverImage);
+
+        // Construct the cover image path
+        const coverImagePath = path.join(__dirname, '..', 'uploads', filename);
+
+        // Read the cover image file
+        const coverImage = fs.readFileSync(coverImagePath);
+
+        return {
+          _id,
+          title,
+          genre,
+          description,
+          user,
+          coverImage
+        };
+      })
+    );
+
+    res.json(albumsWithCoverImage);
   } catch (error) {
     res.status(500).json({ error: 'An error occurred while retrieving the albums' });
   }

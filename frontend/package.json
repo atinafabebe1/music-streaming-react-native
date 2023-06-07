@@ -19,6 +19,7 @@
     "expo": "~48.0.15",
     "expo-av": "^13.2.1",
     "expo-document-picker": "~11.2.2",
+    "expo-image-picker": "^14.1.1",
     "expo-media-library": "^15.2.3",
     "expo-permissions": "^14.1.1",
     "expo-status-bar": "~1.4.4",

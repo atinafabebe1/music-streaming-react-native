@@ -18,6 +18,8 @@ import PlaylistScreen from './screens/playlist';
 import ProfileScreen from './screens/profile';
 import SettingScreen from './screens/settings';
 import AddMusicScreen from './screens/addmusic';
+import ExistingAlbumsScreen from './screens/existingAlbum';
+import AddAlbumScreen from './screens/addAlbum';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -57,10 +59,17 @@ const HomeStack = () => (
       }}
     />
     <Stack.Screen
-      name="AddNewMusic"
-      component={AddMusicScreen}
+      name="ExistingAlbumScreen"
+      component={ExistingAlbumsScreen}
       options={{
-        title: 'Add new music'
+        title: 'Albums'
+      }}
+    />
+    <Stack.Screen
+      name="AddAlbumScreen"
+      component={AddAlbumScreen}
+      options={{
+        title: 'Add Albums'
       }}
     />
     <Stack.Screen

@@ -4,8 +4,6 @@ const path = require('path');
 
 const createSong = async (req, res) => {
   try {
-    console.log(req.body);
-    console.log(req.file);
     const { title, artist, album, duration, genre } = req.body;
 
     const song = await Song.create({

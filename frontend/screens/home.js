@@ -40,7 +40,7 @@ const HomeScreen = ({ navigation }) => {
   const renderAlbum = ({ item }) => <AlbumItem album={item} handleAlbumPress={handleAlbumPress} />;
 
   const handleAddMusic = () => {
-    navigation.navigate('AddNewMusic');
+    navigation.navigate('ExistingAlbumScreen');
   };
 
   const toggleModal = () => {
