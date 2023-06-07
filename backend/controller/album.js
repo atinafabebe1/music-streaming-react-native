@@ -27,6 +27,7 @@ const createalbum = async (req, res) => {
 };
 
 // Get all albums
+
 const getAllalbums = async (req, res) => {
   try {
     const albums = await Album.find();
@@ -34,16 +35,14 @@ const getAllalbums = async (req, res) => {
     // Retrieve the cover image for each album
     const albumsWithCoverImage = await Promise.all(
       albums.map(async (album) => {
-        const { _id, title, genre, description, user } = album;
-
-        // Retrieve the filename from the coverImage field
-        const filename = path.basename(album.coverImage);
+        const { _id, title, genre, description, user, coverImage } = album;
 
         // Construct the cover image path
-        const coverImagePath = path.join(__dirname, '..', 'uploads', filename);
-
+        const coverImagePath = path.join(__dirname, '../', coverImage);
+        console.log(coverImagePath);
         // Read the cover image file
-        const coverImage = fs.readFileSync(coverImagePath);
+        const coverImageFile = fs.readFileSync(coverImagePath);
+        console.log(coverImageFile);
 
         return {
           _id,
@@ -51,7 +50,7 @@ const getAllalbums = async (req, res) => {
           genre,
           description,
           user,
-          coverImage
+          coverImage: coverImageFile.toString('base64') // Convert image buffer to base64 string
         };
       })
     );
