@@ -16,8 +16,7 @@ const createalbum = async (req, res) => {
       title,
       genre,
       description,
-      coverImage, // Save the file path in the album data
-      user: req.user._id
+      coverImage // Save the file path in the album data
     });
 
     res.status(201).json(album);
