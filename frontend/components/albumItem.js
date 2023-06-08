@@ -2,10 +2,13 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 const AlbumItem = ({ album, handleAlbumPress }) => {
+  console.log(album);
+  const coverImageSource = album.coverImage ? { uri: `data:image/png;base64,${album.coverImage}` } : null;
+
   return (
     <TouchableOpacity activeOpacity={0.8} style={styles.albumContainer} onPress={() => handleAlbumPress(album)}>
       <View style={styles.albumImageContainer}>
-        <Image source={album.image} style={styles.albumImage} />
+        <Image source={coverImageSource} style={styles.albumImage} />
       </View>
       <Text style={styles.albumTitle}>{album.title}</Text>
       <Text style={styles.albumArtist}>{album.artist}</Text>

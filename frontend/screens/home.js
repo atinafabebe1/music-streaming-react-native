@@ -22,10 +22,10 @@ const HomeScreen = ({ navigation }) => {
 
   const fetchAlbums = async () => {
     try {
-      const response = await axios.get('http://musicify-0umh.onrender.com/api/songs/songs');
+      const response = await axios.get('http://musicify-0umh.onrender.com/api/albums');
       setAlbums(response.data);
     } catch (error) {
-      setError(error);
+      console.error('Failed to fetch albums:', error);
     }
   };
 
@@ -50,8 +50,6 @@ const HomeScreen = ({ navigation }) => {
   const checkLoginStatus = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
-      console.log('token');
-      console.log(token);
     } catch (error) {
       console.log('Error reading token from AsyncStorage:', error);
       // Handle the error appropriately (e.g., show an error message)

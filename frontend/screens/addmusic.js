@@ -10,6 +10,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import ButtonStyle from '../styles/button';
 import ContainerStyle from '../styles/container';
 import InputStyle from '../styles/input';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddMusicScreen = ({ route }) => {
   const { album } = route.params;
@@ -58,17 +59,17 @@ const AddMusicScreen = ({ route }) => {
         type: 'audio/mp3'
       });
 
+      const token = await AsyncStorage.getItem('token');
+
       const response = await axios.post('https://musicify-0umh.onrender.com/api/songs/songs', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`
         }
       });
 
-      console.log(response.data);
-
       setTitle('');
       setArtist('');
-      setAlbum('');
       setDuration('');
       setGenre('');
       setSongFile(null);

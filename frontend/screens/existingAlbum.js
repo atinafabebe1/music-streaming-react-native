@@ -3,9 +3,6 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from 'react
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 
-import ContainerStyle from '../styles/container';
-import ButtonStyle from '../styles/button';
-
 const ExistingAlbumsScreen = () => {
   const navigation = useNavigation();
   const [albums, setAlbums] = useState([]);
