@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, Alert, ActivityIndicator, StyleSheet } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { View, TextInput, Text, Alert, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
-import * as ImagePicker from 'expo-image-picker'; // Import the ImagePicker module
 
 import ButtonStyle from '../styles/button';
 import ContainerStyle from '../styles/container';
@@ -11,44 +10,44 @@ import InputStyle from '../styles/input';
 const AddAlbumScreen = () => {
   const [title, setTitle] = useState('');
   const [genre, setGenre] = useState('');
-  const [description, setDescription] = useState(null);
+  const [description, setDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [coverImage, setCoverImage] = useState(null); // Store the selected cover image URI
+  const [coverImage, setCoverImage] = useState(null);
 
   const handleAddMusic = async () => {
     try {
-      if (!title || !description || !genre) {
-        Alert.alert('Error', 'Please fill in all fields and select a song file.');
+      if (!title || !description || !genre || !coverImage) {
+        Alert.alert('Error', 'Please fill in all fields and select a cover image.');
         return;
       }
 
       setIsLoading(true);
+
       const formData = new FormData();
       formData.append('title', title);
       formData.append('genre', genre);
       formData.append('description', description);
       formData.append('coverImage', {
-        uri: coverImage,
-        name: 'coverImage.jpg',
-        type: 'image/jpg'
-      }); // Append the cover image to the form data
-      console.log(title);
+        uri: coverImage.uri,
+        type: 'image/jpeg',
+        name: 'cover_image.jpg'
+      });
+
       const response = await axios.post('https://musicify-0umh.onrender.com/api/albums/album', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-      console.log('response');
-      console.log(response);
+
       setTitle('');
       setGenre('');
       setDescription('');
-      setCoverImage(null); // Reset the cover image state
+      setCoverImage(null);
       setIsLoading(false);
-      Alert.alert('Success', 'Music added successfully.');
+      Alert.alert('Success', 'Album added successfully.');
     } catch (error) {
       setIsLoading(false);
-      console.error('Error:', error); // Log the error for debugging
+      console.error('Error:', error);
       Alert.alert('Error', `An unexpected error occurred. ${error.message}`);
     }
   };
@@ -68,8 +67,8 @@ const AddAlbumScreen = () => {
         quality: 1
       });
 
-      if (!result.canceled) {
-        setCoverImage(result.assets);
+      if (!result.cancelled) {
+        setCoverImage(result);
       }
     } catch (error) {
       console.error('Error:', error);

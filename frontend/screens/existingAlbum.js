@@ -17,7 +17,6 @@ const ExistingAlbumsScreen = () => {
   const fetchAlbums = async () => {
     try {
       const response = await axios.get('http://musicify-0umh.onrender.com/api/albums');
-      console.log(response.data);
       setAlbums(response.data);
     } catch (error) {
       console.error('Failed to fetch albums:', error);
@@ -25,21 +24,15 @@ const ExistingAlbumsScreen = () => {
   };
 
   const navigateToAddSong = (album) => {
-    navigation.navigate('Addnewmusic', { album });
+    navigation.navigate('AddNewMusic', { album });
   };
 
-  function convertBase64ToImage(base64String) {
-    const image = new Image();
-    image.src = 'data:image/png;base64,' + base64String;
-    return image;
-  }
-
   const renderItem = ({ item }) => {
-    const convertedImage = item.coverImage ? convertBase64ToImage(item.coverImage) : null;
+    const coverImageSource = item.coverImage ? { uri: `data:image/png;base64,${item.coverImage}` } : null;
 
     return (
       <TouchableOpacity style={styles.albumItem} onPress={() => navigateToAddSong(item)}>
-        {convertedImage && <Image style={styles.albumImage} source={{ uri: convertedImage.src }} resizeMode="cover" />}
+        {coverImageSource && <Image style={styles.albumImage} source={coverImageSource} resizeMode="cover" />}
         <View style={styles.albumInfo}>
           <Text style={styles.albumName}>{item.title}</Text>
           <Text style={styles.artistName}>{item.artist}</Text>
@@ -50,51 +43,80 @@ const ExistingAlbumsScreen = () => {
   };
 
   return (
-    <View style={ContainerStyle.container}>
-      <Text style={styles.title}>Existing Albums</Text>
+    <View style={styles.container}>
+      {albums.length > 0 ? (
+        <FlatList data={albums} renderItem={renderItem} keyExtractor={(item) => item._id} />
+      ) : (
+        <Text style={styles.noAlbumsText}>No albums found.</Text>
+      )}
 
-      {albums.length > 0 ? <FlatList data={albums} renderItem={renderItem} keyExtractor={(item) => item._id} /> : <Text>No albums found.</Text>}
-
-      <TouchableOpacity style={ButtonStyle.button} onPress={() => navigation.navigate('AddAlbumScreen')}>
-        <Text style={ButtonStyle.buttonText}>Add New Album</Text>
+      <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddAlbumScreen')}>
+        <Text style={styles.addButtonLabel}>Add New Album</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F7F7F7',
+    padding: 16
+  },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 16
+    marginBottom: 16,
+    color: '#333'
   },
   albumItem: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
+    paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc'
+    borderBottomColor: '#E0E0E0'
   },
   albumImage: {
-    width: 50,
-    height: 50,
-    marginRight: 10
+    width: 60,
+    height: 60,
+    marginRight: 16,
+    borderRadius: 4
   },
   albumInfo: {
     flex: 1
   },
   albumName: {
-    fontSize: 16
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333'
   },
   artistName: {
     fontSize: 14,
-    color: '#888'
+    color: '#666',
+    marginTop: 4
   },
   addSongLink: {
-    color: 'blue',
-    textDecorationLine: 'underline'
+    color: '#2979FF',
+    textDecorationLine: 'underline',
+    fontSize: 14
+  },
+  noAlbumsText: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+    marginTop: 16
+  },
+  addButton: {
+    backgroundColor: '#2979FF',
+    borderRadius: 8,
+    padding: 12,
+    alignItems: 'center',
+    marginTop: 24
+  },
+  addButtonLabel: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#FFF'
   }
 });
 

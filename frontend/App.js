@@ -62,7 +62,7 @@ const HomeStack = () => (
       name="ExistingAlbumScreen"
       component={ExistingAlbumsScreen}
       options={{
-        title: 'Albums'
+        title: 'Your Albums'
       }}
     />
     <Stack.Screen
@@ -70,6 +70,13 @@ const HomeStack = () => (
       component={AddAlbumScreen}
       options={{
         title: 'Add Albums'
+      }}
+    />
+    <Stack.Screen
+      name="AddNewMusic"
+      component={AddMusicScreen}
+      options={{
+        title: 'Add New Music'
       }}
     />
     <Stack.Screen

@@ -5,14 +5,15 @@ const path = require('path');
 const createSong = async (req, res) => {
   try {
     const { title, artist, album, duration, genre } = req.body;
-
+    console.log(req.userId);
     const song = await Song.create({
       title,
       artist,
       album,
       duration,
       genre,
-      url: req.file.path // Use the path of the uploaded file from req.file
+      url: req.file.path,
+      user: req.userId
     });
     console.log(song);
     res.status(201).json(song);

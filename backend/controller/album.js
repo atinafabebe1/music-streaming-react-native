@@ -39,10 +39,8 @@ const getAllalbums = async (req, res) => {
 
         // Construct the cover image path
         const coverImagePath = path.join(__dirname, '../', coverImage);
-        console.log(coverImagePath);
         // Read the cover image file
         const coverImageFile = fs.readFileSync(coverImagePath);
-        console.log(coverImageFile);
 
         return {
           _id,

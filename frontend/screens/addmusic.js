@@ -4,16 +4,17 @@ import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
 import axios from 'axios';
+
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import ButtonStyle from '../styles/button';
 import ContainerStyle from '../styles/container';
 import InputStyle from '../styles/input';
 
-const AddMusicScreen = () => {
-  const [title, setTitle] = useState('');
+const AddMusicScreen = ({ route }) => {
+  const { album } = route.params;
+  const [title, setTitle] = useState();
   const [artist, setArtist] = useState('');
-  const [album, setAlbum] = useState('');
   const [duration, setDuration] = useState('');
   const [genre, setGenre] = useState('');
   const [songFile, setSongFile] = useState(null);
@@ -38,7 +39,7 @@ const AddMusicScreen = () => {
 
   const handleAddMusic = async () => {
     try {
-      if (!title || !artist || !album || !duration || !genre || !songFile) {
+      if (!title || !artist || !duration || !genre || !songFile) {
         Alert.alert('Error', 'Please fill in all fields and select a song file.');
         return;
       }
@@ -48,7 +49,7 @@ const AddMusicScreen = () => {
       const formData = new FormData();
       formData.append('title', title);
       formData.append('artist', artist);
-      formData.append('album', album);
+      formData.append('album', album._id);
       formData.append('duration', duration);
       formData.append('genre', genre);
       formData.append('songFile', {
@@ -121,8 +122,6 @@ const AddMusicScreen = () => {
     <View style={ContainerStyle.container}>
       <TextInput style={InputStyle.input} placeholder="Title" value={title} onChangeText={setTitle} />
       <TextInput style={InputStyle.input} placeholder="Artist" value={artist} onChangeText={setArtist} />
-      {/* make the album a drop down so use can select his album to for the song */}
-      <TextInput style={InputStyle.input} placeholder="Album" value={album} onChangeText={setAlbum} />
       <TextInput style={InputStyle.input} placeholder="Duration" value={duration} onChangeText={setDuration} />
       <TextInput style={InputStyle.input} placeholder="Genre" value={genre} onChangeText={setGenre} />
 
